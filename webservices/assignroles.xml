@@ -1,0 +1,34 @@
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+    <env:Header>
+        <wsse:Security env:mustUnderstand="1">
+            <wsse:UsernameToken>
+                <wsse:Username>AccountName</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#">AccountPassword</wsse:Password>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </env:Header>
+    <env:Body>
+        <wd:Put_Assign_User-Based_Security_Groups_Request xmlns:wd="urn:com.workday/bsvc" wd:version="v32.2">
+            <wd:Assign_User-Based_Security_Groups_Data>
+                <wd:User-Based_Security_Group_Reference>
+                    <wd:ID wd:type="Tenant_Security_Group_ID">HR_Administrator</wd:ID>
+                </wd:User-Based_Security_Group_Reference>
+                <wd:User-Based_Security_Group_Reference>
+                    <wd:ID wd:type="Tenant_Security_Group_ID">Security_Administrator</wd:ID>
+                </wd:User-Based_Security_Group_Reference>
+                 <wd:User-Based_Security_Group_Reference>
+                    <wd:ID wd:type="Tenant_Security_Group_ID">Security_Configurator</wd:ID>
+                </wd:User-Based_Security_Group_Reference>
+                <wd:Workday_Account_Reference>
+                    <wd:ID wd:type="System_User_ID">EmployeeID</wd:ID>
+                </wd:Workday_Account_Reference>
+                    <!-- <wd:User-Based_Security_Group_Reference>
+                    <wd:ID wd:type="Tenant_Security_Group_ID">USER-BASED_SECURITY_GROUP-6-111</wd:ID>
+                </wd:User-Based_Security_Group_Reference> -->
+              
+            </wd:Assign_User-Based_Security_Groups_Data>
+        </wd:Put_Assign_User-Based_Security_Groups_Request>
+    </env:Body>
+</env:Envelope>

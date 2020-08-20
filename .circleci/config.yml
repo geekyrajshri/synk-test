@@ -1,0 +1,46 @@
+version: 2.1
+orbs:
+  snyk: snyk/snyk@0.0.8
+defaults: &defaults
+  docker:
+    - image: google/cloud-sdk:271.0.0
+    - image: circleci/node:10.16.3
+jobs:
+  build_and_test:
+    docker:
+    - image: circleci/node:10.16.0-stretch
+    steps:
+      - checkout
+      - run:
+          name: list
+          command: ls -la
+      - run:
+          name: run test
+          command: |
+            npm install
+      - snyk/scan:
+          fail-on-issues: true
+          monitor-on-build: true
+          project: '${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}'
+          severity-threshold: high
+          token-variable: SNYK_TOKEN
+      - run:
+          name: test run
+          command: |
+            node assignroles.js
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build_and_test
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * 1"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build_and_test
